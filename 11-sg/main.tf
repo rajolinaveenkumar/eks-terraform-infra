@@ -142,14 +142,14 @@ resource "aws_security_group_rule" "bastion_eks" {
 
 
 # eks nodes SG accepting traffic from ingress alb sg on 30000 t0 32767
-resource "aws_security_group_rule" "ingress_nodes" {
-  type                     = "ingress"
-  from_port                = 30000
-  to_port                  = 32767
-  protocol                 = "tcp"
-  source_security_group_id = module.ingress_alb_sg.sg_info.id
-  security_group_id        = module.eks_nodes_sg.sg_info.id
-}
+# resource "aws_security_group_rule" "ingress_nodes" {
+#   type                     = "ingress"
+#   from_port                = 30000
+#   to_port                  = 32767
+#   protocol                 = "tcp"
+#   source_security_group_id = module.ingress_alb_sg.sg_info.id
+#   security_group_id        = module.eks_nodes_sg.sg_info.id
+# }
 
 # eks nodes SG accepting tarffic from  bastion server on port number 22
 resource "aws_security_group_rule" "bastion_nodes" {
@@ -194,8 +194,8 @@ resource "aws_security_group_rule" "vpc_node" {
 #  eks nodes SG accepting tarffic from  alb ingress
 resource "aws_security_group_rule" "ingress_eks_nodes" {
   type              = "ingress"
-  from_port         = 8080
-  to_port           = 8080
+  from_port         = 8079
+  to_port           = 8079
   protocol          = "tcp"
   source_security_group_id = module.ingress_alb_sg.sg_info.id
   security_group_id = module.eks_nodes_sg.sg_info.id

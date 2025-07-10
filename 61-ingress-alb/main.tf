@@ -54,16 +54,17 @@ resource "aws_lb_listener_rule" "backend" {
 # Target Group
 resource "aws_lb_target_group" "target_group" {
   name     = "${var.project_name}-${var.environment}-frontend-TG"
-  target_type = "instance"
-  port     = 80
+  
+  port     = 8079
   protocol = "HTTP"
   vpc_id   = local.vpc_id
+  target_type = "ip"
   deregistration_delay = 60
 
   health_check {
     path                = "/health"
     protocol            = "HTTP"
-    port                = "8080"
+    port                = "8079"
     interval            = 10
     timeout             = 5
     healthy_threshold   = 3
@@ -84,4 +85,10 @@ resource "aws_route53_record" "ingress_alb" {
     zone_id                = aws_lb.ingress_alb.zone_id
     evaluate_target_health = false
   }
+}
+
+
+
+output "target_group_arn" {
+  value = aws_lb_target_group.target_group.arn
 }
